@@ -8,11 +8,11 @@ Aplicativo cross-platform desenvolvido com Electron para extrair áudio MP3 de v
 
 Baixe a versão **v1.0.0** para seu sistema operacional:
 
-| Plataforma | Instalador | Tamanho |
-|------------|-----------|---------|
-| 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract-1.0.0.AppImage) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/youtube-audio-extract_1.0.0_amd64.deb) | ~150 MB |
-| 🪟 **Windows** | [Instalador (.exe)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract%20Setup%201.0.0.exe) | ~150 MB |
-| 🍎 **macOS** | [Instalador (.dmg)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract-1.0.0.dmg) | ~150 MB |
+| Plataforma | Instalador | Status |
+|------------|-----------|--------|
+| 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract-1.0.0.AppImage) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/youtube-audio-extract_1.0.0_amd64.deb) | ✅ Disponível |
+| 🪟 **Windows** | [Ver na página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0) | ⏳ Em breve |
+| 🍎 **macOS** | [Ver na página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0) | ⏳ Em breve |
 
 👉 **[Ver todas as versões e downloads](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0)**
 
