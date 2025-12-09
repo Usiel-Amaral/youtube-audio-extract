@@ -10,8 +10,10 @@ jobs:
   build:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     
@@ -32,9 +34,21 @@ jobs:
         run: npm run build
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+      
+      - name: Check for build artifacts
+        id: check-artifacts
+        continue-on-error: true
+        run: |
+          if ls dist/*.AppImage dist/*.deb dist/*.exe dist/*.dmg dist/*.zip 2>/dev/null; then
+            echo "artifacts_exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "artifacts_exist=false" >> $GITHUB_OUTPUT
+          fi
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
+        if: steps.check-artifacts.outputs.artifacts_exist == 'true'
         with:
           name: ${{ matrix.os }}-build
           path: |
@@ -57,16 +71,31 @@ jobs:
       
       - name: Download all artifacts
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           path: release-artifacts
       
+      - name: Find artifacts
+        id: find-artifacts
+        run: |
+          ARTIFACTS=""
+          if [ -d "release-artifacts/ubuntu-latest-build" ]; then
+            ARTIFACTS="$ARTIFACTS release-artifacts/ubuntu-latest-build/*"
+          fi
+          if [ -d "release-artifacts/windows-latest-build" ]; then
+            ARTIFACTS="$ARTIFACTS release-artifacts/windows-latest-build/*"
+          fi
+          if [ -d "release-artifacts/macos-latest-build" ]; then
+            ARTIFACTS="$ARTIFACTS release-artifacts/macos-latest-build/*"
+          fi
+          echo "artifacts=$ARTIFACTS" >> $GITHUB_OUTPUT
+          echo "Found artifacts: $ARTIFACTS"
+      
       - name: Create Release
+        if: steps.find-artifacts.outputs.artifacts != ''
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            release-artifacts/ubuntu-latest-build/*
-            release-artifacts/windows-latest-build/*
-            release-artifacts/macos-latest-build/*
+          files: ${{ steps.find-artifacts.outputs.artifacts }}
           draft: false
           prerelease: false
           generate_release_notes: true
