@@ -6,20 +6,20 @@ Aplicativo cross-platform desenvolvido com Electron para extrair áudio MP3 de v
 
 ### Instaladores Disponíveis
 
-Baixe a versão mais recente para seu sistema operacional:
+Baixe a versão **v1.0.0** para seu sistema operacional:
 
 | Plataforma | Instalador | Tamanho |
 |------------|-----------|---------|
-| 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
-| 🪟 **Windows** | [Instalador (.exe)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
-| 🍎 **macOS** | [Instalador (.dmg)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
+| 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract-1.0.0.AppImage) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/youtube-audio-extract_1.0.0_amd64.deb) | ~150 MB |
+| 🪟 **Windows** | [Instalador (.exe)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract%20Setup%201.0.0.exe) | ~150 MB |
+| 🍎 **macOS** | [Instalador (.dmg)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube%20Audio%20Extract-1.0.0.dmg) | ~150 MB |
 
-👉 **[Ver todas as versões e downloads](https://github.com/Usiel-Amaral/youtube-audio-extract/releases)**
+👉 **[Ver todas as versões e downloads](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0)**
 
 ### Instalação Rápida
 
-1. Acesse a [página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases)
-2. Clique na versão **v1.0.0**
+1. Clique no link do instalador para sua plataforma acima
+2. Ou acesse a [página de Releases v1.0.0](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0)
 3. Baixe o instalador para seu sistema operacional
 4. Execute o instalador e siga as instruções
 
