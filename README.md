@@ -19,11 +19,13 @@ Baixe a versão mais recente para seu sistema operacional:
 ### Instalação Rápida
 
 1. Acesse a [página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases)
-2. Clique na versão mais recente (ex: v1.0.0)
+2. Clique na versão **v1.0.0**
 3. Baixe o instalador para seu sistema operacional
 4. Execute o instalador e siga as instruções
 
 **Nota:** Você também precisará ter o [yt-dlp](https://github.com/yt-dlp/yt-dlp) instalado no seu sistema.
+
+**Versão atual:** v1.0.0
 
 ## 🚀 Características
 
@@ -158,7 +160,7 @@ Este projeto foi desenvolvido com a assistência de Inteligência Artificial (IA
 - Geração e otimização de código
 - Resolução de problemas técnicos
 - Documentação e estruturação do projeto
-- Configuração de ferramentas e workflows
+- Configuração de ferramentas
 
 A IA foi utilizada como ferramenta de desenvolvimento, mas todas as decisões de design, arquitetura e implementação foram tomadas pelo desenvolvedor.
 

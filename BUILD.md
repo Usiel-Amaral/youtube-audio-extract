@@ -62,44 +62,11 @@ Para adicionar ícones personalizados, coloque os arquivos em `build/`:
 
 Se os ícones não existirem, o electron-builder usará um ícone padrão.
 
-## 🔄 Usando GitHub Actions (Recomendado)
+## 📦 Instaladores Disponíveis
 
-Para gerar instaladores automaticamente para todas as plataformas, você pode usar GitHub Actions. O workflow já está configurado em `.github/workflows/build.yml`.
+Os instaladores da versão **v1.0.0** estão disponíveis na [página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0) do GitHub.
 
-### Como usar:
-
-1. **Fazer commit e push do código:**
-```bash
-git add .
-git commit -m "Add GitHub Actions workflow"
-git push origin main
-```
-
-2. **Criar uma tag para gerar release:**
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-3. **Ou executar manualmente:**
-   - Vá em "Actions" no GitHub
-   - Selecione "Build and Release"
-   - Clique em "Run workflow"
-
-### O que o workflow faz:
-
-- ✅ Gera instaladores para Linux (AppImage e .deb)
-- ✅ Gera instaladores para Windows (.exe)
-- ✅ Gera instaladores para macOS (.dmg)
-- ✅ Faz upload dos artefatos automaticamente
-- ✅ Cria release no GitHub quando você cria uma tag
-
-### Verificar builds:
-
-1. Vá em "Actions" no seu repositório GitHub
-2. Clique no workflow que está rodando
-3. Veja o progresso de cada plataforma
-4. Baixe os artefatos ou veja na release criada
+Para gerar novos instaladores localmente, use os comandos acima (`npm run build:linux`, `npm run build:win`, `npm run build:mac`).
 
 ## 📝 Notas Importantes
 
