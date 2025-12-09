@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+---
+### Shell Script 
+
+#!/bin/bash
+
+# Script para extrair áudio de um link do YouTube usando yt-dlp e cookies.
+# Versão 2: Solicita e salva no caminho de destino (Output).
+# Meus Computadores - Expert Linux Support.
+
+echo "--- Expert Linux: Extrator de Áudio YouTube (yt-dlp) ---"
+echo ""
+
+# 1. Solicita o caminho/nome do arquivo de cookies
+read -p "Por favor, cole o CAMINHO e NOME do arquivo de cookies (.txt): " COOKIES_PATH
+
+# 2. Solicita a URL do YouTube
+read -p "Por favor, cole a URL completa do vídeo do YouTube: " VIDEO_URL
+
+# 3. NOVO: Solicita o caminho de destino
+read -p "Por favor, cole o CAMINHO para onde o MP3 deve ser salvo: " DEST_PATH
+
+# Verifica se o caminho de destino existe
+if [ ! -d "$DEST_PATH" ]; then
+    echo "❌ Erro: O diretório de destino '$DEST_PATH' não existe. Por favor, crie-o ou forneça um caminho válido."
+    exit 1
+fi
+
+echo ""
+echo "Iniciando a extração do áudio (MP3) para o diretório: $DEST_PATH"
+echo "----------------------------------------------------------------------"
+
+# 4. Execução do comando yt-dlp
+# -x --audio-format mp3: Extrai e converte para MP3.
+# --cookies: Usa a autenticação via cookies.
+# -o "$DEST_PATH/%(title)s.%(ext)s": Define o modelo de saída.
+# O arquivo será salvo diretamente em DEST_PATH com o nome do título do vídeo e extensão .mp3.
+yt-dlp -x --audio-format mp3 --cookies "$COOKIES_PATH" -o "$DEST_PATH/%(title)s.%(ext)s" "$VIDEO_URL"
+
+# 5. Mensagem de status
+if [ $? -eq 0 ]; then
+    echo "----------------------------------------------------------------------"
+    echo "✅ SUCESSO: A extração e conversão para MP3 foi concluída e salva em '$DEST_PATH'."
+else
+    echo "----------------------------------------------------------------------"
+    echo "❌ ERRO: O yt-dlp retornou um erro. Verifique o log acima."
+fi
+
+exit 0
