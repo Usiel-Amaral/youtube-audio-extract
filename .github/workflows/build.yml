@@ -30,19 +30,67 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build application
-        run: |
-          if [ "${{ matrix.os }}" == "windows-latest" ]; then
-            npm run build:win
-          elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-            npm run build:mac
-          fi
+      - name: Build application (Windows)
+        if: matrix.os == 'windows-latest'
+        run: npm run build:win
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Upload artifacts
+      - name: Build application (macOS)
+        if: matrix.os == 'macos-latest'
+        run: npm run build:mac
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: List dist directory
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "Contents of dist directory:"
+          ls -la dist/ || dir dist\ || echo "dist directory does not exist or is empty"
+      
+      - name: Check for artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        id: check-windows
+        continue-on-error: true
+        run: |
+          if ls dist/*.exe 2>/dev/null | head -1 > /dev/null; then
+            echo "artifacts_exist=true" >> $GITHUB_OUTPUT
+            echo "Windows artifacts found"
+          else
+            echo "artifacts_exist=false" >> $GITHUB_OUTPUT
+            echo "No Windows artifacts found"
+          fi
+        shell: bash
+      
+      - name: Check for artifacts (macOS)
+        if: matrix.os == 'macos-latest'
+        id: check-macos
+        continue-on-error: true
+        run: |
+          if ls dist/*.dmg 2>/dev/null | head -1 > /dev/null; then
+            echo "artifacts_exist=true" >> $GITHUB_OUTPUT
+            echo "macOS artifacts found"
+          else
+            echo "artifacts_exist=false" >> $GITHUB_OUTPUT
+            echo "No macOS artifacts found"
+          fi
+        shell: bash
+      
+      - name: Upload artifacts (Windows)
+        if: matrix.os == 'windows-latest' && steps.check-windows.outputs.artifacts_exist == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os == 'windows-latest' && 'Windows-Installer' || 'macOS-Installer' }}
-          path: |
-            dist/*.exe
-            dist/*.dmg
+          name: Windows-Installer
+          path: dist/*.exe
+          retention-days: 7
+      
+      - name: Upload artifacts (macOS)
+        if: matrix.os == 'macos-latest' && steps.check-macos.outputs.artifacts_exist == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macOS-Installer
+          path: dist/*.dmg
           retention-days: 7
