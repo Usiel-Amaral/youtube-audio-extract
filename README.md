@@ -2,6 +2,29 @@
 
 Aplicativo cross-platform desenvolvido com Electron para extrair áudio MP3 de vídeos do YouTube de forma simples e intuitiva.
 
+## 📥 Download
+
+### Instaladores Disponíveis
+
+Baixe a versão mais recente para seu sistema operacional:
+
+| Plataforma | Instalador | Tamanho |
+|------------|-----------|---------|
+| 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
+| 🪟 **Windows** | [Instalador (.exe)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
+| 🍎 **macOS** | [Instalador (.dmg)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/latest) | ~150 MB |
+
+👉 **[Ver todas as versões e downloads](https://github.com/Usiel-Amaral/youtube-audio-extract/releases)**
+
+### Instalação Rápida
+
+1. Acesse a [página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases)
+2. Clique na versão mais recente (ex: v1.0.0)
+3. Baixe o instalador para seu sistema operacional
+4. Execute o instalador e siga as instruções
+
+**Nota:** Você também precisará ter o [yt-dlp](https://github.com/yt-dlp/yt-dlp) instalado no seu sistema.
+
 ## 🚀 Características
 
 - ✅ Interface gráfica moderna e intuitiva
