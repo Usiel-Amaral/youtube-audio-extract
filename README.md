@@ -40,7 +40,7 @@ yt-dlp --version
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/youtube-audio-extract.git
+git clone https://github.com/Usiel-Amaral/youtube-audio-extract.git
 cd youtube-audio-extract
 ```
 
@@ -110,15 +110,57 @@ npm start
 
 ## 📄 Licença
 
-ISC
+Este projeto está licenciado sob a **ISC License** - uma licença de código aberto gratuita e permissiva.
 
-## 👤 Autor
+Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-Desenvolvido com ❤️ usando Electron
+### O que a licença ISC permite:
+
+- ✅ **Uso comercial**: Você pode usar este software em projetos comerciais
+- ✅ **Modificação**: Você pode modificar o código como desejar
+- ✅ **Distribuição**: Você pode distribuir o software livremente
+- ✅ **Uso privado**: Você pode usar o software para qualquer propósito
+- ✅ **Sem garantias**: O software é fornecido "como está", sem garantias
+
+## 👤 Desenvolvedor
+
+**Usiel Amaral**
+
+- 📧 Email: suporte@usis.com.br
+- 🐙 GitHub: [@Usiel-Amaral](https://github.com/Usiel-Amaral)
+
+### Desenvolvido com Assistência de IA
+
+Este projeto foi desenvolvido com a assistência de Inteligência Artificial (IA) para acelerar o processo de desenvolvimento, incluindo:
+- Geração e otimização de código
+- Resolução de problemas técnicos
+- Documentação e estruturação do projeto
+- Configuração de ferramentas e workflows
+
+A IA foi utilizada como ferramenta de desenvolvimento, mas todas as decisões de design, arquitetura e implementação foram tomadas pelo desenvolvedor.
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+Contribuições são bem-vindas! Sinta-se à vontade para:
+
+- 🐛 Reportar bugs
+- 💡 Sugerir novas funcionalidades
+- 📝 Melhorar a documentação
+- 🔧 Enviar pull requests
+
+Para contribuir:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
+## 🙏 Agradecimentos
+
+- **yt-dlp**: Ferramenta essencial para download de vídeos do YouTube
+- **Electron**: Framework que torna possível aplicações desktop cross-platform
+- **Comunidade Open Source**: Por todas as ferramentas e bibliotecas utilizadas
 
 ---
 

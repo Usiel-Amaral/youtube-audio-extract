@@ -253,8 +253,19 @@ const modalContent = {
       <h3>Versão</h3>
       <p>Versão 1.0.0</p>
       
-      <h3>Desenvolvido com</h3>
-      <p>Electron, Node.js, yt-dlp</p>
+      <h3>Desenvolvedor</h3>
+      <p><strong>Usiel Amaral</strong></p>
+      <p>📧 Email: suporte@usis.com.br</p>
+      <p>🐙 GitHub: <a href="https://github.com/Usiel-Amaral" target="_blank">@Usiel-Amaral</a></p>
+      
+      <h3>Desenvolvido com Assistência de IA</h3>
+      <p>Este projeto foi desenvolvido com a assistência de Inteligência Artificial (IA) para acelerar o processo de desenvolvimento, incluindo geração de código, resolução de problemas técnicos e documentação. A IA foi utilizada como ferramenta de desenvolvimento, mas todas as decisões de design, arquitetura e implementação foram tomadas pelo desenvolvedor.</p>
+      
+      <h3>Licença</h3>
+      <p>Este software está licenciado sob a <strong>ISC License</strong> - uma licença de código aberto gratuita e permissiva que permite uso comercial, modificação e distribuição.</p>
+      
+      <h3>Tecnologias Utilizadas</h3>
+      <p>Electron, Node.js, yt-dlp, HTML, CSS, JavaScript</p>
     `
   },
   requirements: {
