@@ -40,23 +40,62 @@ jobs:
         id: check-artifacts
         continue-on-error: true
         run: |
-          if ls dist/*.AppImage dist/*.deb dist/*.exe dist/*.dmg dist/*.zip 2>/dev/null; then
-            echo "artifacts_exist=true" >> $GITHUB_OUTPUT
-          else
-            echo "artifacts_exist=false" >> $GITHUB_OUTPUT
+          ARTIFACTS_EXIST=false
+          
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            if ls dist/*.AppImage dist/*.deb 2>/dev/null | head -1 > /dev/null; then
+              ARTIFACTS_EXIST=true
+              echo "Found Linux artifacts"
+            fi
+          elif [ "${{ matrix.os }}" == "windows-latest" ]; then
+            if ls dist/*.exe 2>/dev/null | head -1 > /dev/null; then
+              ARTIFACTS_EXIST=true
+              echo "Found Windows artifacts"
+            fi
+          elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+            if ls dist/*.dmg 2>/dev/null | head -1 > /dev/null; then
+              ARTIFACTS_EXIST=true
+              echo "Found macOS artifacts"
+            fi
           fi
+          
+          echo "artifacts_exist=$ARTIFACTS_EXIST" >> $GITHUB_OUTPUT
+          echo "Artifacts exist: $ARTIFACTS_EXIST"
       
-      - name: Upload artifacts
+      - name: List dist directory
+        if: always()
+        continue-on-error: true
+        run: |
+          echo "Contents of dist directory:"
+          ls -la dist/ || echo "dist directory does not exist or is empty"
+      
+      - name: Upload artifacts (Linux)
+        if: matrix.os == 'ubuntu-latest' && steps.check-artifacts.outputs.artifacts_exist == 'true'
+        continue-on-error: true
         uses: actions/upload-artifact@v4
-        if: steps.check-artifacts.outputs.artifacts_exist == 'true'
         with:
-          name: ${{ matrix.os }}-build
+          name: ubuntu-latest-build
           path: |
             dist/*.AppImage
             dist/*.deb
-            dist/*.exe
-            dist/*.dmg
-            dist/*.zip
+          retention-days: 30
+      
+      - name: Upload artifacts (Windows)
+        if: matrix.os == 'windows-latest' && steps.check-artifacts.outputs.artifacts_exist == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-latest-build
+          path: dist/*.exe
+          retention-days: 30
+      
+      - name: Upload artifacts (macOS)
+        if: matrix.os == 'macos-latest' && steps.check-artifacts.outputs.artifacts_exist == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-latest-build
+          path: dist/*.dmg
           retention-days: 30
 
   release:
