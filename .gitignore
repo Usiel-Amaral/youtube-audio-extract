@@ -16,10 +16,21 @@ desktop.ini
 *.swo
 *~
 
+# GitHub Actions (manter)
+!.github/
+
 # Arquivos de build
 dist/
 build/
 out/
+
+# Arquivos do electron-builder
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+*.exe
+*.zip
 
 # Arquivos temporários
 *.tmp

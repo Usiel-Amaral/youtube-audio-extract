@@ -1,0 +1,140 @@
+# Guia para Gerar Instaladores
+
+Este guia explica como gerar instaladores para Linux, Windows e macOS usando `electron-builder`.
+
+## 📦 Pré-requisitos
+
+### Para Linux (já está no Ubuntu):
+- Já está configurado! O electron-builder funciona nativamente no Linux.
+
+### Para Windows:
+- Você precisa estar em um sistema Windows ou usar uma máquina virtual/CI
+- Ou usar GitHub Actions para build automático
+
+### Para macOS:
+- Você precisa estar em um Mac ou usar GitHub Actions
+- Requer certificado de desenvolvedor Apple (opcional, mas recomendado)
+
+## 🚀 Gerar Instaladores
+
+### Gerar para Linux (AppImage e .deb):
+```bash
+npm run build:linux
+```
+
+Isso gerará:
+- `dist/YouTube Audio Extract-1.0.0.AppImage` - Executável portátil
+- `dist/YouTube Audio Extract_1.0.0_amd64.deb` - Pacote Debian
+
+### Gerar para Windows (.exe):
+```bash
+npm run build:win
+```
+
+Isso gerará:
+- `dist/YouTube Audio Extract Setup 1.0.0.exe` - Instalador Windows
+
+### Gerar para macOS (.dmg):
+```bash
+npm run build:mac
+```
+
+Isso gerará:
+- `dist/YouTube Audio Extract-1.0.0.dmg` - Instalador macOS
+
+### Gerar para todas as plataformas:
+```bash
+npm run build:all
+```
+
+**Nota**: Isso só funciona se você estiver em cada plataforma respectiva, ou usando CI/CD.
+
+## 📁 Onde encontrar os instaladores
+
+Todos os instaladores serão gerados na pasta `dist/` após o build.
+
+## 🎨 Ícones (Opcional)
+
+Para adicionar ícones personalizados, coloque os arquivos em `build/`:
+- `build/icon.png` - Ícone para Linux (512x512)
+- `build/icon.ico` - Ícone para Windows (256x256)
+- `build/icon.icns` - Ícone para macOS (512x512)
+
+Se os ícones não existirem, o electron-builder usará um ícone padrão.
+
+## 🔄 Usando GitHub Actions (Recomendado)
+
+Para gerar instaladores automaticamente para todas as plataformas, você pode usar GitHub Actions. O workflow já está configurado em `.github/workflows/build.yml`.
+
+### Como usar:
+
+1. **Fazer commit e push do código:**
+```bash
+git add .
+git commit -m "Add GitHub Actions workflow"
+git push origin main
+```
+
+2. **Criar uma tag para gerar release:**
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+3. **Ou executar manualmente:**
+   - Vá em "Actions" no GitHub
+   - Selecione "Build and Release"
+   - Clique em "Run workflow"
+
+### O que o workflow faz:
+
+- ✅ Gera instaladores para Linux (AppImage e .deb)
+- ✅ Gera instaladores para Windows (.exe)
+- ✅ Gera instaladores para macOS (.dmg)
+- ✅ Faz upload dos artefatos automaticamente
+- ✅ Cria release no GitHub quando você cria uma tag
+
+### Verificar builds:
+
+1. Vá em "Actions" no seu repositório GitHub
+2. Clique no workflow que está rodando
+3. Veja o progresso de cada plataforma
+4. Baixe os artefatos ou veja na release criada
+
+## 📝 Notas Importantes
+
+1. **Primeira vez**: O electron-builder baixará os binários do Electron na primeira execução (pode demorar).
+
+2. **Tamanho**: Os instaladores serão grandes (100-200MB) pois incluem o Electron completo.
+
+3. **yt-dlp**: Os instaladores **NÃO** incluem o yt-dlp. Os usuários precisam instalá-lo separadamente (veja README.md).
+
+4. **Assinatura**: Para distribuir no macOS e Windows, você pode querer assinar os aplicativos (requer certificados pagos).
+
+5. **Teste**: Sempre teste os instaladores antes de publicar!
+
+## 🚀 Publicar no GitHub Releases
+
+Após gerar os instaladores, você pode:
+
+1. Criar uma release no GitHub
+2. Fazer upload dos arquivos da pasta `dist/`
+3. Os usuários poderão baixar diretamente
+
+Ou use `electron-builder` com GitHub Releases automático (requer token):
+
+```json
+"build": {
+  "publish": {
+    "provider": "github",
+    "owner": "Usiel-Amaral",
+    "repo": "youtube-audio-extract"
+  }
+}
+```
+
+E execute:
+```bash
+npm run build -- --publish always
+```
+

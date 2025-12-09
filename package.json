@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:linux": "electron-builder --linux",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:all": "electron-builder --linux --win --mac"
   },
   "keywords": [
     "youtube",
@@ -13,14 +18,78 @@
     "electron",
     "yt-dlp"
   ],
-  "author": "",
+  "author": {
+    "name": "Usiel Amaral",
+    "email": "suporte@usis.com.br"
+  },
   "license": "ISC",
   "description": "Aplicativo cross-platform para extrair áudio MP3 de vídeos do YouTube",
-  "dependencies": {
-    "electron": "^39.2.6"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/seu-usuario/youtube-audio-extract.git"
+    "url": "https://github.com/Usiel-Amaral/youtube-audio-extract.git"
+  },
+  "devDependencies": {
+    "electron": "^39.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.youtubeaudioextract.app",
+    "productName": "YouTube Audio Extract",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "AudioVideo",
+      "maintainer": "Usiel Amaral <suporte@usis.com.br>"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
