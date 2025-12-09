@@ -6,6 +6,10 @@ on:
       - 'v*'
   workflow_dispatch: # Permite executar manualmente
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}
@@ -118,17 +122,24 @@ jobs:
         id: find-artifacts
         run: |
           ARTIFACTS=""
-          if [ -d "release-artifacts/ubuntu-latest-build" ]; then
+          if [ -d "release-artifacts/ubuntu-latest-build" ] && [ -n "$(ls -A release-artifacts/ubuntu-latest-build 2>/dev/null)" ]; then
             ARTIFACTS="$ARTIFACTS release-artifacts/ubuntu-latest-build/*"
+            echo "Found Linux artifacts"
           fi
-          if [ -d "release-artifacts/windows-latest-build" ]; then
+          if [ -d "release-artifacts/windows-latest-build" ] && [ -n "$(ls -A release-artifacts/windows-latest-build 2>/dev/null)" ]; then
             ARTIFACTS="$ARTIFACTS release-artifacts/windows-latest-build/*"
+            echo "Found Windows artifacts"
           fi
-          if [ -d "release-artifacts/macos-latest-build" ]; then
+          if [ -d "release-artifacts/macos-latest-build" ] && [ -n "$(ls -A release-artifacts/macos-latest-build 2>/dev/null)" ]; then
             ARTIFACTS="$ARTIFACTS release-artifacts/macos-latest-build/*"
+            echo "Found macOS artifacts"
           fi
           echo "artifacts=$ARTIFACTS" >> $GITHUB_OUTPUT
-          echo "Found artifacts: $ARTIFACTS"
+          echo "All artifacts: $ARTIFACTS"
+          if [ -z "$ARTIFACTS" ]; then
+            echo "No artifacts found!"
+            exit 1
+          fi
       
       - name: Create Release
         if: steps.find-artifacts.outputs.artifacts != ''
@@ -138,6 +149,5 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
