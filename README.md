@@ -11,7 +11,7 @@ Baixe a versão **v1.0.0** para seu sistema operacional:
 | Plataforma | Instalador | Status |
 |------------|-----------|--------|
 | 🐧 **Linux** | [AppImage](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube.Audio.Extract-1.0.0.AppImage) • [Debian/Ubuntu (.deb)](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/youtube-audio-extract_1.0.0_amd64.deb) | ✅ Disponível |
-| 🪟 **Windows** | [aplicativo portátil](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube.Audio.Extract.1.0.0.exe) | ⏳ Em breve |
+| 🪟 **Windows** | [aplicativo portátil](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/download/v1.0.0/YouTube.Audio.Extract.1.0.0.exe) | ✅ Disponível |
 | 🍎 **macOS** | [Ver na página de Releases](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0) | ⏳ Em breve |
 
 👉 **[Ver todas as versões e downloads](https://github.com/Usiel-Amaral/youtube-audio-extract/releases/tag/v1.0.0)**
