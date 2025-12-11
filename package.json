@@ -4,11 +4,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder",
-    "build:linux": "electron-builder --linux",
-    "build:win": "electron-builder --win",
-    "build:mac": "electron-builder --mac",
-    "build:all": "electron-builder --linux --win --mac"
+    "build": "npx electron-builder",
+    "build:linux": "npx electron-builder --linux",
+    "build:win": "npx electron-builder --win",
+    "build:mac": "npx electron-builder --mac",
+    "build:all": "npx electron-builder --linux --win --mac"
   },
   "keywords": [
     "youtube",
@@ -45,6 +45,11 @@
       "styles.css",
       "package.json"
     ],
+    "extraResources": [
+      "yt-dlp.exe",
+      "ffmpeg.exe",
+      "ffprobe.exe"
+    ],
     "linux": {
       "target": [
         {
@@ -66,12 +71,14 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
+          "target": "portable",
           "arch": [
             "x64"
           ]
         }
-      ]
+      ],
+      "requestedExecutionLevel": "asInvoker",
+      "signAndEditExecutable": false
     },
     "mac": {
       "target": [
