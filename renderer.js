@@ -23,6 +23,7 @@ const fileLink = document.getElementById('file-link');
 let selectedCookiesPath = null;
 let selectedDestPath = null;
 let isExtracting = false;
+let selectedFormat = 'audio'; // 'audio' ou 'video'
 
 // Validação de URL do YouTube
 function isValidYouTubeUrl(url) {
@@ -71,7 +72,7 @@ destPathBtn.addEventListener('click', async () => {
 // Buscar preview do vídeo quando URL for inserida
 videoUrlInput.addEventListener('blur', async () => {
   const url = videoUrlInput.value.trim();
-  
+
   if (!url) {
     previewArea.style.display = 'none';
     return;
@@ -134,13 +135,14 @@ extractBtn.addEventListener('click', async () => {
     const result = await ipcRenderer.invoke('extract-audio', {
       videoUrl: videoUrl,
       cookiesPath: selectedCookiesPath,
-      destPath: selectedDestPath
+      destPath: selectedDestPath,
+      format: selectedFormat
     });
 
     showStatus(result.message, 'success');
     progressBar.style.width = '100%';
     progressText.textContent = 'Concluído!';
-    
+
     // Mostrar link para abrir o arquivo se disponível
     if (result.filePath) {
       fileLink.dataset.filePath = result.filePath;
@@ -155,7 +157,7 @@ extractBtn.addEventListener('click', async () => {
     isExtracting = false;
     extractBtn.disabled = false;
     extractBtn.textContent = 'Extrair Áudio';
-    
+
     // Ocultar barra de progresso após 3 segundos se sucesso
     setTimeout(() => {
       if (progressText.textContent === 'Concluído!') {
@@ -163,6 +165,21 @@ extractBtn.addEventListener('click', async () => {
       }
     }, 3000);
   }
+});
+
+// Listener para mudança de formato
+document.querySelectorAll('input[name="download-format"]').forEach(radio => {
+  radio.addEventListener('change', (e) => {
+    selectedFormat = e.target.value;
+    updateExtractButton();
+
+    // Atualizar texto do link de arquivo antecipadamente
+    if (selectedFormat === 'audio') {
+      fileLink.textContent = '🎵 Abrir arquivo MP3 no player padrão';
+    } else {
+      fileLink.textContent = '🎬 Abrir vídeo MP4 no player padrão';
+    }
+  });
 });
 
 // Listener para atualizações de progresso
@@ -193,8 +210,12 @@ function updateExtractButton() {
   const hasCookies = selectedCookiesPath !== null;
   const hasUrl = videoUrlInput.value.trim() && isValidYouTubeUrl(videoUrlInput.value.trim());
   const hasDest = selectedDestPath !== null;
-  
+
   extractBtn.disabled = !(hasCookies && hasUrl && hasDest) || isExtracting;
+
+  if (!isExtracting) {
+    extractBtn.textContent = selectedFormat === 'audio' ? 'Extrair Áudio' : 'Baixar Vídeo Completo';
+  }
 }
 
 function showStatus(message, type = 'info') {
@@ -242,7 +263,7 @@ const modalContent = {
       
       <h3>Funcionalidades</h3>
       <ul>
-        <li>Extrai áudio MP3 de vídeos do YouTube</li>
+        <li>Extrai áudio MP3 ou baixa vídeos completos (MP4) do YouTube</li>
         <li>Interface gráfica intuitiva e moderna</li>
         <li>Suporte a autenticação via cookies</li>
         <li>Preview do título do vídeo antes do download</li>
@@ -309,9 +330,11 @@ const modalContent = {
         
         <li><strong>Selecionar diretório de destino:</strong> Clique no botão "Selecionar" ao lado do campo "Diretório de Destino" e escolha onde deseja salvar o arquivo MP3.</li>
         
-        <li><strong>Extrair áudio:</strong> Clique no botão "Extrair Áudio" para iniciar o processo. A barra de progresso mostrará o andamento do download e conversão.</li>
+        <li><strong>Selecionar o formato:</strong> Escolha se deseja "Somente Áudio (MP3)" ou "Vídeo Completo (MP4)".</li>
         
-        <li><strong>Abrir o arquivo:</strong> Após a conclusão, um link aparecerá para abrir o arquivo MP3 no player padrão do sistema.</li>
+        <li><strong>Extrair ou Baixar:</strong> Clique no botão de ação para iniciar o processo. A barra de progresso mostrará o andamento do download.</li>
+        
+        <li><strong>Abrir o arquivo:</strong> Após a conclusão, um link aparecerá para abrir o arquivo gerado no player padrão do sistema.</li>
       </ol>
       
       <h3>Dicas</h3>

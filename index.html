@@ -1,91 +1,111 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Audio Extract</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <!-- Barra de Menu Superior -->
-    <div class="menu-bar">
-      <button class="menu-btn" id="about-btn">Sobre</button>
-      <button class="menu-btn" id="requirements-btn">Requisitos</button>
-      <button class="menu-btn" id="instructions-btn">Instruções</button>
-      <button class="menu-btn" id="cookies-btn">Como obter Cookies</button>
-    </div>
 
-    <div class="container">
-      <h1>YouTube Audio Extract</h1>
-      <p class="subtitle">Extraia áudio MP3 de vídeos do YouTube</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Audio Extract</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-      <form id="extract-form">
-        <!-- Arquivo de Cookies -->
-        <div class="form-group">
-          <label for="cookies-file-btn">Arquivo de Cookies (.txt)</label>
-          <div class="input-group">
-            <input type="text" id="cookies-file-input" placeholder="Nenhum arquivo selecionado" readonly>
-            <button type="button" id="cookies-file-btn">Selecionar</button>
-          </div>
-          <span id="cookies-file-path" class="file-path"></span>
+<body>
+  <!-- Barra de Menu Superior -->
+  <div class="menu-bar">
+    <button class="menu-btn" id="about-btn">Sobre</button>
+    <button class="menu-btn" id="requirements-btn">Requisitos</button>
+    <button class="menu-btn" id="instructions-btn">Instruções</button>
+    <button class="menu-btn" id="cookies-btn">Como obter Cookies</button>
+  </div>
+
+  <div class="container">
+    <h1>YouTube Audio Extract</h1>
+    <p class="subtitle">Extraia áudio MP3 ou baixe vídeos completos do YouTube</p>
+
+    <form id="extract-form">
+      <!-- Arquivo de Cookies -->
+      <div class="form-group">
+        <label for="cookies-file-btn">Arquivo de Cookies (.txt)</label>
+        <div class="input-group">
+          <input type="text" id="cookies-file-input" placeholder="Nenhum arquivo selecionado" readonly>
+          <button type="button" id="cookies-file-btn">Selecionar</button>
         </div>
-
-        <!-- URL do YouTube -->
-        <div class="form-group">
-          <label for="video-url-input">URL do Vídeo do YouTube</label>
-          <div class="input-group">
-            <input type="text" id="video-url-input" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-            <button type="button" id="video-url-btn" disabled style="display: none;">Verificar</button>
-          </div>
-        </div>
-
-        <!-- Preview do Vídeo -->
-        <div id="preview-area" class="preview-area">
-          <div class="preview-label">Pré-visualização</div>
-          <div id="preview-title"></div>
-        </div>
-
-        <!-- Diretório de Destino -->
-        <div class="form-group">
-          <label for="dest-path-input">Diretório de Destino</label>
-          <div class="input-group">
-            <input type="text" id="dest-path-input" placeholder="Nenhum diretório selecionado" readonly>
-            <button type="button" id="dest-path-btn">Selecionar</button>
-          </div>
-        </div>
-
-        <!-- Botão de Extração -->
-        <button type="button" id="extract-btn" disabled>Extrair Áudio</button>
-
-        <!-- Barra de Progresso -->
-        <div id="progress-container" class="progress-container">
-          <div class="progress-bar-wrapper">
-            <div id="progress-bar"></div>
-          </div>
-          <div id="progress-text"></div>
-        </div>
-
-        <!-- Mensagem de Status -->
-        <div id="status-message" class="status-message"></div>
-        
-        <!-- Link para abrir arquivo -->
-        <div id="file-link-container" class="file-link-container" style="display: none;">
-          <a href="#" id="file-link" class="file-link">🎵 Abrir arquivo MP3 no player padrão</a>
-        </div>
-      </form>
-    </div>
-
-    <!-- Modal Overlay -->
-    <div id="modal-overlay" class="modal-overlay">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="modal-title"></h2>
-          <button class="modal-close" id="modal-close">&times;</button>
-        </div>
-        <div class="modal-body" id="modal-body"></div>
+        <span id="cookies-file-path" class="file-path"></span>
       </div>
-    </div>
 
-    <script src="renderer.js"></script>
-  </body>
+      <!-- URL do YouTube -->
+      <div class="form-group">
+        <label for="video-url-input">URL do Vídeo do YouTube</label>
+        <div class="input-group">
+          <input type="text" id="video-url-input" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
+          <button type="button" id="video-url-btn" disabled style="display: none;">Verificar</button>
+        </div>
+      </div>
+
+      <!-- Preview do Vídeo -->
+      <div id="preview-area" class="preview-area">
+        <div class="preview-label">Pré-visualização</div>
+        <div id="preview-title"></div>
+      </div>
+
+      <!-- Diretório de Destino -->
+      <div class="form-group">
+        <label for="dest-path-input">Diretório de Destino</label>
+        <div class="input-group">
+          <input type="text" id="dest-path-input" placeholder="Nenhum diretório selecionado" readonly>
+          <button type="button" id="dest-path-btn">Selecionar</button>
+        </div>
+      </div>
+
+      <!-- Opção de Formato (Áudio ou Vídeo) -->
+      <div class="form-group format-selection">
+        <label>Selecione o Formato de Saída</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="download-format" value="audio" checked>
+            <span class="radio-custom"></span>
+            <span class="radio-text">🎵 Somente Áudio (MP3)</span>
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="download-format" value="video">
+            <span class="radio-custom"></span>
+            <span class="radio-text">🎬 Vídeo Completo (MP4)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Botão de Extração -->
+      <button type="button" id="extract-btn" disabled>Extrair Áudio</button>
+
+      <!-- Barra de Progresso -->
+      <div id="progress-container" class="progress-container">
+        <div class="progress-bar-wrapper">
+          <div id="progress-bar"></div>
+        </div>
+        <div id="progress-text"></div>
+      </div>
+
+      <!-- Mensagem de Status -->
+      <div id="status-message" class="status-message"></div>
+
+      <!-- Link para abrir arquivo -->
+      <div id="file-link-container" class="file-link-container" style="display: none;">
+        <a href="#" id="file-link" class="file-link">🎵 Abrir arquivo MP3 no player padrão</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title"></h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+
 </html>

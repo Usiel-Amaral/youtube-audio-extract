@@ -13,7 +13,7 @@ let mainWindow;
 // Função auxiliar para obter o comando yt-dlp correto baseado no sistema operacional
 function getYtDlpCommand() {
   const isWindows = process.platform === 'win32';
-  
+
   if (isWindows) {
     // Quando empacotado, o yt-dlp.exe fica em resources/ (extraResources)
     // Quando em desenvolvimento, fica na raiz do projeto
@@ -25,16 +25,16 @@ function getYtDlpCommand() {
       // Em desenvolvimento, está na raiz
       ytdlpPath = path.join(__dirname, 'yt-dlp.exe');
     }
-    
+
     // Verifica se o yt-dlp.exe existe junto com o app
     if (fs.existsSync(ytdlpPath)) {
       return ytdlpPath;
     }
-    
+
     // Se não encontrar, tenta no PATH do sistema
     return 'yt-dlp.exe';
   }
-  
+
   // No Linux/Mac, usa apenas yt-dlp do PATH
   return 'yt-dlp';
 }
@@ -44,22 +44,22 @@ async function checkYtDlpAvailable() {
   return new Promise((resolve) => {
     const command = getYtDlpCommand();
     const isWindows = process.platform === 'win32';
-    const check = spawn(command, ['--version'], { 
+    const check = spawn(command, ['--version'], {
       shell: isWindows, // No Windows, usar shell ajuda a encontrar o comando no PATH
-      stdio: 'ignore' 
+      stdio: 'ignore'
     });
-    
+
     check.on('close', (code) => {
       resolve(code === 0);
     });
-    
+
     check.on('error', () => {
       resolve(false);
     });
   });
 }
 
-function createWindow () {
+function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
@@ -117,11 +117,11 @@ ipcMain.handle('get-video-info', async (event, videoUrl) => {
     if (!isAvailable) {
       const platform = process.platform === 'win32' ? 'Windows' : process.platform === 'darwin' ? 'macOS' : 'Linux';
       let errorMsg = `yt-dlp não encontrado no sistema (${platform}). Por favor, instale o yt-dlp e certifique-se de que está no PATH do sistema.`;
-      
+
       if (platform === 'Windows') {
         errorMsg += `\n\nDownload: https://github.com/yt-dlp/yt-dlp/releases`;
       }
-      
+
       reject(new Error(errorMsg));
       return;
     }
@@ -164,11 +164,11 @@ ipcMain.handle('get-video-info', async (event, videoUrl) => {
       if (error.code === 'ENOENT') {
         const platform = process.platform === 'win32' ? 'Windows' : process.platform === 'darwin' ? 'macOS' : 'Linux';
         let errorMsg = `yt-dlp não encontrado no sistema (${platform}). Por favor, instale o yt-dlp e certifique-se de que está no PATH do sistema.`;
-        
+
         if (platform === 'Windows') {
           errorMsg += `\n\nDownload: https://github.com/yt-dlp/yt-dlp/releases`;
         }
-        
+
         reject(new Error(errorMsg));
       } else {
         reject(new Error(`Erro ao executar yt-dlp: ${error.message}`));
@@ -177,8 +177,8 @@ ipcMain.handle('get-video-info', async (event, videoUrl) => {
   });
 });
 
-// Handler para extrair áudio
-ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath }) => {
+// Handler para extrair áudio ou baixar vídeo
+ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath, format }) => {
   return new Promise((resolve, reject) => {
     // Validações
     if (!videoUrl || !videoUrl.includes('youtube.com') && !videoUrl.includes('youtu.be')) {
@@ -202,21 +202,35 @@ ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath 
     const command = getYtDlpCommand();
     const isWindows = process.platform === 'win32';
 
-    // Comando yt-dlp
     // Definir local do ffmpeg (mesmo diretório do yt-dlp)
     const ffmpegPath = isWindows ? path.dirname(command) : null;
-    
-    const args = [
-      '-x',
-      '--audio-format', 'mp3',
+
+    let args = [
       '--cookies', cookiesPath,
       '--progress',
       '-o', path.join(safeDestPath, '%(title)s.%(ext)s'),
       videoUrl
     ];
-    
+
+    if (format === 'video') {
+      // Baixar melhor qualidade de vídeo e áudio em container mp4
+      // Importante: não colocar espaços na expressão do formato, senão o yt-dlp interpreta como múltiplos argumentos/URLs
+      args = [
+        '-f', 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b',
+        '--merge-output-format', 'mp4',
+        ...args
+      ];
+    } else {
+      // Extrair somente áudio
+      args = [
+        '-x',
+        '--audio-format', 'mp3',
+        ...args
+      ];
+    }
+
     if (ffmpegPath) {
-       args.unshift('--ffmpeg-location', ffmpegPath);
+      args.unshift('--ffmpeg-location', ffmpegPath);
     }
 
     const ytdlp = spawn(command, args, {
@@ -246,11 +260,15 @@ ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath 
       }
 
       // Enviar mensagens de status gerais
-      if (output.includes('[download]') || output.includes('[ExtractAudio]')) {
+      if (output.includes('[download]') || output.includes('[ExtractAudio]') || output.includes('[Merger]')) {
         const cleanMessage = output.trim().split('\n')[0];
         if (cleanMessage && !cleanMessage.match(/\[download\]\s*\d+%/)) {
+          let displayMsg = cleanMessage;
+          if (cleanMessage.includes('[Merger]')) displayMsg = 'Mesclando áudio e vídeo...';
+          if (cleanMessage.includes('[ExtractAudio]')) displayMsg = 'Extraindo áudio para MP3...';
+
           mainWindow.webContents.send('progress-update', {
-            message: cleanMessage
+            message: displayMsg
           });
         }
       }
@@ -258,7 +276,7 @@ ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath 
 
     ytdlp.stdout.on('data', (data) => {
       const output = data.toString();
-      
+
       // yt-dlp também pode enviar progresso pelo stdout
       const progressMatch = output.match(/(\d+(?:\.\d+)?)%/);
       if (progressMatch) {
@@ -279,31 +297,32 @@ ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath 
           progress: 100,
           message: 'Download concluído!'
         });
-        
-        // Encontrar o arquivo MP3 mais recente no diretório
+
+        // Encontrar o arquivo gerado mais recente no diretório
         let outputFilePath = null;
         try {
+          const extension = format === 'video' ? '.mp4' : '.mp3';
           const files = fs.readdirSync(safeDestPath);
-          const mp3Files = files
-            .filter(file => file.endsWith('.mp3'))
+          const matchedFiles = files
+            .filter(file => file.endsWith(extension))
             .map(file => ({
               name: file,
               path: path.join(safeDestPath, file),
               time: fs.statSync(path.join(safeDestPath, file)).mtime.getTime()
             }))
             .sort((a, b) => b.time - a.time);
-          
-          if (mp3Files.length > 0) {
+
+          if (matchedFiles.length > 0) {
             // Pegar o arquivo mais recente (primeiro da lista ordenada)
-            outputFilePath = mp3Files[0].path;
+            outputFilePath = matchedFiles[0].path;
           }
         } catch (error) {
           console.error('Erro ao buscar arquivo gerado:', error);
         }
-        
-        resolve({ 
-          success: true, 
-          message: 'Extração concluída com sucesso!',
+
+        resolve({
+          success: true,
+          message: format === 'video' ? 'Download concluído com sucesso!' : 'Extração concluída com sucesso!',
           filePath: outputFilePath
         });
       } else {
@@ -315,11 +334,11 @@ ipcMain.handle('extract-audio', async (event, { videoUrl, cookiesPath, destPath 
       if (error.code === 'ENOENT') {
         const platform = process.platform === 'win32' ? 'Windows' : process.platform === 'darwin' ? 'macOS' : 'Linux';
         let errorMsg = `yt-dlp não encontrado no sistema (${platform}). Por favor, instale o yt-dlp e certifique-se de que está no PATH do sistema.`;
-        
+
         if (platform === 'Windows') {
           errorMsg += `\n\nDownload: https://github.com/yt-dlp/yt-dlp/releases`;
         }
-        
+
         reject(new Error(errorMsg));
       } else {
         reject(new Error(`Erro ao executar yt-dlp: ${error.message}`));

@@ -1,6 +1,6 @@
-# YouTube Audio Extract
+# YouTube Audio & Video Extract
 
-Aplicativo cross-platform desenvolvido com Electron para extrair áudio MP3 de vídeos do YouTube de forma simples e intuitiva.
+Aplicativo cross-platform desenvolvido com Electron para extrair áudio MP3 ou baixar vídeos completos (MP4) do YouTube de forma simples e intuitiva.
 
 ## 📥 Download
 
@@ -31,6 +31,8 @@ Baixe a versão **v1.0.0** para seu sistema operacional:
 
 - ✅ Interface gráfica moderna e intuitiva
 - ✅ Extração de áudio MP3 de vídeos do YouTube
+- ✅ Download de vídeos completos (MP4) do YouTube
+- ✅ Seleção entre formato de áudio ou vídeo antes do download
 - ✅ Suporte a autenticação via cookies
 - ✅ Preview do título do vídeo antes do download
 - ✅ Barra de progresso em tempo real
@@ -87,11 +89,13 @@ npm start
 
 3. **Inserir URL do vídeo**: Cole a URL completa do vídeo do YouTube
 
-4. **Selecionar diretório de destino**: Escolha onde deseja salvar o arquivo MP3
+4. **Selecionar diretório de destino**: Escolha onde deseja salvar o arquivo
 
-5. **Extrair áudio**: Clique em "Extrair Áudio" e aguarde a conclusão
+5. **Selecionar formato**: Escolha se deseja "Somente Áudio (MP3)" ou "Vídeo Completo (MP4)"
 
-6. **Abrir arquivo**: Após a conclusão, clique no link para abrir o arquivo no player padrão
+6. **Iniciar Processo**: Clique em "Extrair Áudio" ou "Baixar Vídeo" (o botão mudará de acordo com sua escolha) e aguarde a conclusão
+
+7. **Abrir arquivo**: Após a conclusão, clique no link para abrir o arquivo no player padrão
 
 ## 📖 Obter Arquivo de Cookies
 
