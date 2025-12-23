@@ -4,18 +4,18 @@ alwaysApply: true
 
 ## Diretrizes do Projeto para o Agente de IA
 
-### 1\. Visão Geral do Projeto 🚀
+### 1. Visão Geral do Projeto 🚀
 
 O objetivo é desenvolver um **aplicativo *cross-platform*** com Interface Gráfica (GUI), destinado a rodar em **Linux (Ubuntu 24.04), Windows e macOS**. O foco atual é o desenvolvimento da lógica central e da interface.
 
-### 2\. Stack Tecnológica 💻
+### 2. Stack Tecnológica 💻
 
   * **Framework Principal:** **Electron** (Versão atualizada via `npm`).
   * **Base:** Node.js (via `snap` no Host), JavaScript, HTML, CSS.
   * **Gerenciamento:** NPM.
   * **Arquivos Core:** `main.js` (Processo Principal do Electron), `index.html` (Interface do Usuário/Renderer), `package.json` (Configuração).
 
-## 3\. Ambiente e Restrição Crítica (Ubuntu 24.04) ⚠️
+## 3. Ambiente e Restrição Crítica (Ubuntu 24.04) ⚠️
 
 O ambiente de desenvolvimento (Host) é o **Ubuntu Desktop 24.04**.
 
@@ -25,7 +25,7 @@ O ambiente de desenvolvimento (Host) é o **Ubuntu Desktop 24.04**.
     "start": "electron ."
     ```
 
-### 4\. Escopo de Assistência 🛠️
+### 4. Escopo de Assistência 🛠️
 
 O Agente deve priorizar a assistência em:
 
@@ -33,7 +33,7 @@ O Agente deve priorizar a assistência em:
 2.  Soluções para empacotamento final (`electron-builder` ou similar).
 3.  Lógica de interface (HTML/CSS/JavaScript) dentro do contexto do Electron.
 
-### 5\. Objetivo do projeto
+### 5. Objetivo do projeto
 este projeto visa criar uma interface gráfica para fazer o mesmo que  faz o script constante em no arquivo script-para-terminal-linux.mdc: extrair áudio a partir de um link do youtube usando um arquivo de cookie em formaato texto que deve ser baixado usando uma extensão de navegador de internet.
 
 Mantenha as respostas **técnicas, sucintas e focadas na solução** para o contexto do Electron.

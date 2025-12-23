@@ -13,30 +13,25 @@ let mainWindow;
 // Função auxiliar para obter o comando yt-dlp correto baseado no sistema operacional
 function getYtDlpCommand() {
   const isWindows = process.platform === 'win32';
+  const binaryName = isWindows ? 'yt-dlp.exe' : 'yt-dlp';
 
-  if (isWindows) {
-    // Quando empacotado, o yt-dlp.exe fica em resources/ (extraResources)
-    // Quando em desenvolvimento, fica na raiz do projeto
-    let ytdlpPath;
-    if (app.isPackaged) {
-      // No build, extraResources fica em process.resourcesPath
-      ytdlpPath = path.join(process.resourcesPath, 'yt-dlp.exe');
-    } else {
-      // Em desenvolvimento, está na raiz
-      ytdlpPath = path.join(__dirname, 'yt-dlp.exe');
-    }
-
-    // Verifica se o yt-dlp.exe existe junto com o app
-    if (fs.existsSync(ytdlpPath)) {
-      return ytdlpPath;
-    }
-
-    // Se não encontrar, tenta no PATH do sistema
-    return 'yt-dlp.exe';
+  // Verifica primeiro o binário embutido (tanto em prod quanto dev)
+  let ytdlpPath;
+  if (app.isPackaged) {
+    // No build, extraResources fica em process.resourcesPath
+    ytdlpPath = path.join(process.resourcesPath, binaryName);
+  } else {
+    // Em desenvolvimento, está na raiz
+    ytdlpPath = path.join(__dirname, binaryName);
   }
 
-  // No Linux/Mac, usa apenas yt-dlp do PATH
-  return 'yt-dlp';
+  // Se encontrar o binário embutido, usa ele
+  if (fs.existsSync(ytdlpPath)) {
+    return ytdlpPath;
+  }
+
+  // Se não encontrar (fallback), tenta no PATH do sistema
+  return binaryName;
 }
 
 // Função para verificar se yt-dlp está disponível

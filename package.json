@@ -47,6 +47,7 @@
     ],
     "extraResources": [
       "yt-dlp.exe",
+      "yt-dlp",
       "ffmpeg.exe",
       "ffprobe.exe"
     ],
